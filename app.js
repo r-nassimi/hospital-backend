@@ -5,8 +5,10 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 
-const router = require("/home/user/Documents/Work/hospital-backend-node/src/modules/routes/complaints-routes");
-const errorMiddleware = require("/home/user/Documents/Work/hospital-backend-node/src/modules/middleware/authorization-middleware");
+const path = ('/home/user/Documents/Work/hospital-backend-node/');
+
+const router = require(path + "src/modules/routes/complaints-routes");
+const errorMiddleware = require(path + "src/modules/middleware/authorization-middleware");
 
 const PORT = 5000;
 const app = express();
@@ -18,6 +20,8 @@ app.use(cors());
 app.set("Access-Control-Allow-Origin", "*");
 app.use(router);
 app.use(errorMiddleware);
+
+app.use("/", router);
 
 const start = async () => {
   try {

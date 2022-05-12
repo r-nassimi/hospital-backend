@@ -1,5 +1,6 @@
-const TokenService = require("/home/user/Documents/Work/hospital-backend-node/src/service/token-service");
-const ApiError = require("/home/user/Documents/Work/hospital-backend-node/src/modules/exceptions/api-error");
+const path = "/home/user/Documents/Work/hospital-backend-node/";
+const TokenService = require(path + "src/service/token-service");
+const ApiError = require(path + "src/modules/errors/api-error");
 
 module.exports = (req, res, next) => {
   try {
@@ -11,7 +12,7 @@ module.exports = (req, res, next) => {
     if (!accessToken) {
       return next(ApiError.UnauthorizedError());
     }
-    const userData = TokenService.validateAcessToken(accessToken);
+    const userData = TokenService.validateAccessToken(accessToken);
     if (!userData) {
       return next(ApiError.UnauthorizedError());
     }

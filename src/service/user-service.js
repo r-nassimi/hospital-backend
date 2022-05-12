@@ -1,8 +1,9 @@
-const User = require("/home/user/Documents/Work/hospital-backend-node/src/models/user-model");
 const bcrypt = require("bcrypt");
-const TokenService = require("/home/user/Documents/Work/hospital-backend-node/src/service/token-service");
-const UserDto = require("/home/user/Documents/Work/hospital-backend-node/src/modules/dto/user-dto");
-const ApiError = require("/home/user/Documents/Work/hospital-backend-node/src/modules/exceptions/api-error");
+const path = "/home/user/Documents/Work/hospital-backend-node/";
+const User = require(path + "src/models/user-model");
+const TokenService = require(path + "src/service/token-service");
+const UserDto = require(path + "src/modules/dto/user-dto");
+const ApiError = require(path + "src/modules/errors/api-error");
 
 class UserService {
   async registration(login, password) {
@@ -35,7 +36,7 @@ class UserService {
       password,
       user.password
     );
-    if (!passwordConfirm) {
+    if (!passwordEqual) {
       throw new Error("Введенный пароль неверный!");
     }
     const userDto = new UserDto(user);
@@ -71,6 +72,11 @@ class UserService {
       ...tokens,
       user: userDto,
     };
+  }
+
+  async getUsers() {
+    const users = await User.find();
+    return users;
   }
 }
 

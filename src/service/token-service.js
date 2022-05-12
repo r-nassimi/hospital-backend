@@ -1,5 +1,6 @@
+const path = ('/home/user/Documents/Work/hospital-backend-node/');
 const jwt = require("jsonwebtoken");
-const Token = require("/home/user/Documents/Work/hospital-backend-node/src/models/token-model");
+const Token = require(path + "src/models/token-model");
 
 class TokenService {
   generateTokens(payload) {
@@ -23,11 +24,11 @@ class TokenService {
     };
   }
 
-  validateAcessToken(token) {
+  validateAccessToken(token) {
     try {
       const userData = jwt.verify(
         token,
-        process.env.JWT_ACESS_SECRET
+        process.env.JWT_ACCESS_SECRET
       );
       return userData;
     } catch (e) {
