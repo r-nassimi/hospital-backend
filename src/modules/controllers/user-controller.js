@@ -7,6 +7,7 @@ const rule = {
   maxAge: 30 * 24 * 60 * 1000,
   httpOnly: true,
 };
+const access = res.set('Access-Control-Allow-Origin', '*');
 
 class UserController {
   async registration(req, res, next) {
@@ -21,11 +22,12 @@ class UserController {
         );
       }
       const { login, password } = req.body;
+      access;
       const userData = await UserService.registration(
         login,
         password
       );
-      res.cookie("refreshToken", userData.refreshToken, rule);
+      res.cookie("refreshToken", userData.refreshToken, {rule});
       return res.json(userData);
     } catch (e) {
       next(e);
@@ -35,7 +37,9 @@ class UserController {
   async login(req, res, next) {
     try {
       const { login, password } = req.body;
+      access;
       const userData = await UserService.login(login, password);
+      console.log(login, password);
       res.cookie("refreshToken", userData.refreshToken, rule);
       return res.json(userData);
     } catch (e) {
@@ -46,6 +50,7 @@ class UserController {
   async logout(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
+      access;
       const token = await UserService.logout(refreshToken);
       res.clearCookie("refreshToken");
       return res.json(token);
@@ -57,8 +62,10 @@ class UserController {
   async refresh(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
+      access;
       const userData = await UserService.refresh(refreshToken);
-      res.cookie("refreshToken", userData.refreshToken, rule);
+      res.set('Access-Control-Allow-Origin', '*');
+      res.cookie("refreshToken", userData.refreshToken, {rule});
       return res.json(userData);
     } catch (e) {
       next(e);
@@ -68,6 +75,7 @@ class UserController {
   async getUsers(req, res, next) {
     try {
       const users = await UserService.getUsers();
+      access;
       return res.json(users);
     } catch (e) {
       next(e);
