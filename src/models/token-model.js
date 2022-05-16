@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const TokenSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: "user",
   },
   refreshToken: {
     type: String,

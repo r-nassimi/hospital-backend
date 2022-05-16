@@ -1,9 +1,8 @@
 const bcrypt = require("bcrypt");
-const path = "/home/user/Documents/Work/hospital-backend-node/";
-const User = require(path + "src/models/user-model");
-const TokenService = require(path + "src/service/token-service");
-const UserDto = require(path + "src/modules/dto/user-dto");
-const ApiError = require(path + "src/modules/errors/api-error");
+const User = require("../models/user-model");
+const TokenService = require("../service/token-service");
+const UserDto = require("../modules/dto/user-dto");
+const ApiError = require("../modules/errors/api-error");
 
 class UserService {
   async registration(login, password) {

@@ -1,7 +1,6 @@
-const path = "/home/user/Documents/Work/hospital-backend-node/";
-const UserService = require(path + "src/service/user-service");
 const { validationResult } = require("express-validator");
-const ApiError = require(path + "src/modules/errors/api-error");
+const UserService = require("../../service/user-service");
+const ApiError = require("../errors/api-error");
 
 const rule = {
   maxAge: 30 * 24 * 60 * 1000,
@@ -21,12 +20,11 @@ class UserController {
         );
       }
       const { login, password } = req.body;
-      access;
       const userData = await UserService.registration(
         login,
         password
       );
-      res.cookie("refreshToken", userData.refreshToken, {rule});
+      res.cookie("refreshToken", userData.refreshToken, rule);
       return res.json(userData);
     } catch (e) {
       next(e);
@@ -36,9 +34,7 @@ class UserController {
   async login(req, res, next) {
     try {
       const { login, password } = req.body;
-      access;
       const userData = await UserService.login(login, password);
-      console.log(login, password);
       res.cookie("refreshToken", userData.refreshToken, rule);
       return res.json(userData);
     } catch (e) {
@@ -49,7 +45,6 @@ class UserController {
   async logout(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
-      access;
       const token = await UserService.logout(refreshToken);
       res.clearCookie("refreshToken");
       return res.json(token);
@@ -61,10 +56,8 @@ class UserController {
   async refresh(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
-      access;
       const userData = await UserService.refresh(refreshToken);
-      res.set('Access-Control-Allow-Origin', '*');
-      res.cookie("refreshToken", userData.refreshToken, {rule});
+      res.cookie("refreshToken", userData.refreshToken, rule);
       return res.json(userData);
     } catch (e) {
       next(e);

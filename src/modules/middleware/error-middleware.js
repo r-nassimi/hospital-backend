@@ -1,5 +1,4 @@
-const path = "/home/user/Documents/Work/hospital-backend-node/";
-const ApiError = require(path + "src/errors/api-error");
+const ApiError = require("../errors/api-error");
 
 module.exports = (err, req, res, next) => {
   if (err instanceof ApiError) {

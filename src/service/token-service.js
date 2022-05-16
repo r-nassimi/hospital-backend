@@ -1,6 +1,5 @@
-const path = ('/home/user/Documents/Work/hospital-backend-node/');
 const jwt = require("jsonwebtoken");
-const Token = require(path + "src/models/token-model");
+const Token = require("../models/token-model");
 
 class TokenService {
   generateTokens(payload) {

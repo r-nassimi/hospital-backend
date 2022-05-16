@@ -1,14 +1,12 @@
-require('dotenv').config();
+require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 
-const path = ('/home/user/Documents/Work/hospital-backend-node/');
-
-const router = require(path + "src/modules/routes/complaints-routes");
-const errorMiddleware = require(path + "src/modules/middleware/authorization-middleware");
+const router = require("./src/modules/routes/complaints-routes");
+const errorMiddleware = require("./src/modules/middleware/error-middleware");
 
 const PORT = 5000;
 const app = express();
