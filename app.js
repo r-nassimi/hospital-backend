@@ -8,15 +8,19 @@ const cookieParser = require("cookie-parser");
 const router = require("./src/modules/routes/complaints-routes");
 const errorMiddleware = require("./src/modules/middleware/error-middleware");
 
+
 const PORT = 5000;
 const app = express();
 const url = process.env.APP_URL;
+const corsOptions = {
+  origin: "http://localhost:3000",
+  optionSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
-app.set("Access-Control-Allow-Origin", "*");
-app.use(router);
+
 app.use(errorMiddleware);
 
 app.use("/", router);
@@ -31,7 +35,7 @@ const start = async () => {
       console.log(`Server started on port = ${PORT}`);
     });
   } catch (e) {
-    console.error(e);
+    console.log(e);
   }
 };
 

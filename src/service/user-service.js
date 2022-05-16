@@ -41,7 +41,6 @@ class UserService {
     const userDto = new UserDto(user);
     const tokens = TokenService.generateTokens({ ...userDto });
     await TokenService.saveToken(userDto.id, tokens.refreshToken);
-
     return {
       ...tokens,
       user: userDto,
@@ -59,7 +58,6 @@ class UserService {
     }
     const userData = TokenService.validateRefreshToken(refreshToken);
     const tokenFromDB = await TokenService.findToken(refreshToken);
-
     if (!userData || !tokenFromDB) {
       throw new Error("Вы не авторизованы!");
     }
@@ -71,11 +69,6 @@ class UserService {
       ...tokens,
       user: userDto,
     };
-  }
-
-  async getUsers() {
-    const users = await User.find();
-    return users;
   }
 }
 
