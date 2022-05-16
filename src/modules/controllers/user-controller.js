@@ -7,7 +7,6 @@ const rule = {
   maxAge: 30 * 24 * 60 * 1000,
   httpOnly: true,
 };
-const access = res.set('Access-Control-Allow-Origin', '*');
 
 class UserController {
   async registration(req, res, next) {
@@ -67,16 +66,6 @@ class UserController {
       res.set('Access-Control-Allow-Origin', '*');
       res.cookie("refreshToken", userData.refreshToken, {rule});
       return res.json(userData);
-    } catch (e) {
-      next(e);
-    }
-  }
-
-  async getUsers(req, res, next) {
-    try {
-      const users = await UserService.getUsers();
-      access;
-      return res.json(users);
     } catch (e) {
       next(e);
     }
