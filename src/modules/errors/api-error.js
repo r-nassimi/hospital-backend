@@ -1,3 +1,6 @@
+const nonAuthorized = (401, 'Пользователь не авторизован!');
+const badRequest = ([]);
+
 module.exports = class ApiError extends Error {
   status;
   errors;
@@ -7,11 +10,11 @@ module.exports = class ApiError extends Error {
     this.status = status;
     this.errors = errors;
   };
-
+  
   static UnauthorizedError() {
-    return new ApiError(401, "Пользователь не авторизован!");
+    return new ApiError(nonAuthorized);
   };
-  static BadRequest(message, errors = []) {
-    return new ApiError(400, message, errors);
+  static BadRequest(message, error = []) {
+    return new ApiError(badRequest(message, error));
   }
 };

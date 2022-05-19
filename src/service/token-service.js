@@ -1,18 +1,19 @@
 const jwt = require("jsonwebtoken");
 const Token = require("../models/token-model");
+const config = require("../../config");
 
 class TokenService {
   generateTokens(payload) {
     const accessToken = jwt.sign(
       payload,
-      process.env.JWT_ACCESS_SECRET,
+      config.jwtAccess,
       {
         expiresIn: "60m",
       }
     );
     const refreshToken = jwt.sign(
       payload,
-      process.env.JWT_REFRESH_SECRET,
+      config.jwtRefresh,
       {
         expiresIn: "30d",
       }
@@ -27,7 +28,7 @@ class TokenService {
     try {
       const userData = jwt.verify(
         token,
-        process.env.JWT_ACCESS_SECRET
+        config.jwtAccess,
       );
       return userData;
     } catch (e) {
@@ -39,7 +40,7 @@ class TokenService {
     try {
       const userData = jwt.verify(
         token,
-        process.env.JWT_REFRESH_SECRET
+        config.jwtRefresh,
       );
       return userData;
     } catch (e) {

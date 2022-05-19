@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -7,27 +5,20 @@ const cookieParser = require("cookie-parser");
 
 const router = require("./src/modules/routes/complaints-routes");
 const errorMiddleware = require("./src/modules/middleware/error-middleware");
+const config = require('./config');
 
-
-const PORT = 5000;
+const PORT = config.port || 8000;
 const app = express();
-const url = process.env.APP_URL;
-const corsOptions = {
-  origin: "http://localhost:3000",
-  optionSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
-
+const url = config.adress;
+app.use(cors(config.corsOptions));
 app.use(express.json());
 app.use(cookieParser());
-
+app.use("/", router);
 app.use(errorMiddleware);
 
-app.use("/", router);
-
-const start = async () => {
+const start = () => {
   try {
-    await mongoose.connect(url, {
+      mongoose.connect(url, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
@@ -36,6 +27,7 @@ const start = async () => {
     });
   } catch (e) {
     console.error(e);
+    process.exit(1);
   };
 };
 
