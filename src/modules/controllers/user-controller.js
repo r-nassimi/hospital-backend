@@ -3,26 +3,24 @@ const UserService = require("../../service/user-service");
 const ApiError = require("../errors/api-error");
 
 const rule = {
-
-  //maxAge = 30 days
-  maxAge: 30 * 24 * 60 * 1000,
+  maxAge: 30 * 24 * 60 * 1000,  //30 days
   httpOnly: true,
 };
 
 class UserController {
   async registration(req, res, next) {
     try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({message: 'Ошибка при регистрации', errors})
-      };
       const { login, password } = req.body;
       const userData = await UserService.registration(
         login,
         password
       );
-      res.cookie("accessToken", userData.accessToken, rule);
+      res.cookie("accessToken", userData.accessToken, "refreshToken", userData.refreshToken, rule);
       res.json(userData);
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({message: 'Ошибка при регистрации', errors})
+      };
     } catch (e) {
       next(e);
     };
@@ -32,7 +30,7 @@ class UserController {
     try {
       const { login, password } = req.body;
       const userData = await UserService.login(login, password);
-      res.cookie("accessToken", userData.accessToken, rule);
+      res.cookie("accessToken", userData.accessToken, "refreshToken", userData.refreshToken, rule);
       res.json(userData);
     } catch (e) {
       next(e);

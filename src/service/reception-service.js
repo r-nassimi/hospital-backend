@@ -1,25 +1,42 @@
-const Reception = require("../models/reception-model");
+//This is not final version of service
 
-//WIP
+const Receptions = require('../models/reception-model');
+
 class ReceptionService {
-  async getList(_id) {
-    const userList = await Reception.findOne({ user_id: _id });
-    return userList;
+  async getList(user) {
+    const receptionList = await Receptions.find({ user: user_id });
+    return receptionList;
   }
 
-  async createList(user_id, name, doctor, date, complaint ){
-    const list = await Reception.create({
-      user_id,
+  async createList(body) {
+    const { name, doctor, date, complaint, user } = body;
+    const list = await Receptions.create({
+      user,
       name,
       doctor,
       date,
-      complaint
+      complaint,
     });
     return list;
   }
 
-  async updateList(_id, name, doctor, date, complaint) {
-    const updatingList = {$set}
+  async updateList(body) {
+    const {name, doctor, date, complaint, user } = body;
+    const updateFunction = Receptions.findOneAndUpdate({
+      $set: {
+        user,
+        name,
+        doctor,
+        date,
+        complaint
+      },
+    });
+    return updateFunction;
+  }
+
+  async deleteList(id, user) {
+    await Receptions.deleteOne({ _id: id });
+    return this.getList(user);
   }
 }
 

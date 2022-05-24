@@ -1,12 +1,13 @@
-const ReceptionService = require("../../service/reception-service");
+//createList is working
 
-//WIP
+const ReceptionService = require('../../service/reception-service');
+
 class ReceptionController {
   async getList(req, res, next) {
     try {
-      const id = req.body.user_id;
-      const list = await ReceptionService.find(id);
-      res.send(list);
+      const { id } = req.user;
+      const list = await ReceptionService.getList(id);
+      return res.send(list);
     } catch (e) {
       next(e);
     }
@@ -14,14 +15,8 @@ class ReceptionController {
 
   async createList(req, res, next) {
     try {
-      const { name, doctor, date, complaint } = req.body;
-      const list = await new ReceptionService({
-        name,
-        doctor,
-        date,
-        complaint,
-      });
-      res.send(list);
+      const list = await ReceptionService.createList(req.body);
+      return res.send(list);
     } catch (e) {
       next(e);
     }
@@ -29,22 +24,11 @@ class ReceptionController {
 
   async updateList(req, res, next) {
     try {
-      const { user_id, name, doctor, date, complaint, _id } =
-        req.body;
-      const updateList = await Reception.updateOne(
-        { _id },
-
-        {
-          $set: {
-            name,
-            doctor,
-            date,
-            complaint,
-          },
-        }
-      );
-      await Reception.find({ user_id });
-      res.send(updateList);
+      const updatingList = await ReceptionService.updateList(body);
+      if(updatingList) {
+        const refresh = await ReceptionService.getList(id);
+        return res.send(refresh);
+      }
     } catch (e) {
       next(e);
     }
@@ -54,9 +38,9 @@ class ReceptionController {
     try {
       const id = req.body._id;
       if (id) {
-        await Reception.deleteOne({ _id: id });  
+        await ReceptionService.deleteOne({ _id: id });  
       }
-      await Reception.find({ id });
+      await ReceptionService.find({ id });
         res.send("Deleted");
     } catch (e) {
       next(e);
