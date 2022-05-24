@@ -1,41 +1,30 @@
-const Receptions = require("../models/reception-model");
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-class ReceptionService {
-  async getList(user) {
-    const receptionList = await Receptions.find({ user: user_id });
-    return receptionList;
-  }
+const ReceptionSchema = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'Users',
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  doctor: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: String,
+    required: true,
+  },
+  complaint: {
+    type: String,
+    required: true,
+  },
+});
 
-  async createList(body) {
-    const { name, doctor, date, complaint, user } = body;
-    const list = await Receptions.create({
-      user,
-      name,
-      doctor,
-      date,
-      complaint,
-    });
-    return list;
-  }
-
-  async updateList(body) {
-    const { name, doctor, date, complaint, user } = body;
-    const updateFunction = Receptions.findOneAndUpdate({
-      $set: {
-        user,
-        name,
-        doctor,
-        date,
-        complaint,
-      },
-    });
-    return updateFunction;
-  }
-
-  async deleteList(id, user) {
-    await Receptions.deleteOne({ _id: id });
-    return this.getList(user);
-  }
-}
-
-module.exports = new ReceptionService();
+module.exports = Receptions = mongoose.model(
+  "Receptions",
+  ReceptionSchema
+);
