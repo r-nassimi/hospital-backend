@@ -3,8 +3,8 @@
 const Receptions = require('../models/reception-model');
 
 class ReceptionService {
-  async getList(id) {
-    const receptionList = await Receptions.find({user: id});
+  async getList(user) {
+    const receptionList = await Receptions.find({ user: user_id });
     return receptionList;
   }
 
@@ -20,9 +20,9 @@ class ReceptionService {
     return list;
   }
 
-  async updateList(id, name, doctor, date, complaint) {
-    const identificator = {_id: id};
-    const updating = {
+  async updateList(body) {
+    const {name, doctor, date, complaint, user } = body;
+    const updateFunction = Receptions.findOneAndUpdate({
       $set: {
         user,
         name,
@@ -30,14 +30,13 @@ class ReceptionService {
         date,
         complaint
       },
-    };
-    return await ReceptionService.updateOne(identificator, updating);
+    });
+    return updateFunction;
   }
 
   async deleteList(id, user) {
     await Receptions.deleteOne({ _id: id });
-    const result = await this.getList(user);
-    return result;
+    return this.getList(user);
   }
 }
 

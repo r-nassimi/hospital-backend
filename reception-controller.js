@@ -5,8 +5,7 @@ const ReceptionService = require('../../service/reception-service');
 class ReceptionController {
   async getList(req, res, next) {
     try {
-      const { id } = req.user;
-      const list = await ReceptionService.getList(id);
+      const list = await ReceptionService.getList();
       return res.send(list);
     } catch (e) {
       next(e);
@@ -24,9 +23,9 @@ class ReceptionController {
 
   async updateList(req, res, next) {
     try {
-      const updatingList = await ReceptionService.updateList(req.body);
+      const updatingList = await ReceptionService.updateList(body);
       if(updatingList) {
-        const refresh = await ReceptionService.getList(req.user.id);
+        const refresh = await ReceptionService.getList(id);
         return res.send(refresh);
       }
     } catch (e) {
@@ -36,7 +35,11 @@ class ReceptionController {
 
   async deleteList(req, res, next) {
     try {
-      const result = await ReceptionService.deleteList(req.body.id, req.user.id);
+      const id = req.body._id;
+      if (id) {
+        await ReceptionService.deleteOne({ _id: id });  
+      }
+      await ReceptionService.find({ id });
         res.send("Deleted");
     } catch (e) {
       next(e);
