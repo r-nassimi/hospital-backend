@@ -10,6 +10,10 @@ const rule = {
 class UserController {
   async registration(req, res, next) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({error: {message: errors.array()[0].msg}})
+      };
       const { login, password } = req.body;
       const userData = await UserService.registration(
         login,
@@ -17,10 +21,7 @@ class UserController {
       );
       res.cookie("accessToken", userData.accessToken, "refreshToken", userData.refreshToken, rule);
       res.json(userData);
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({message: 'Ошибка при регистрации', errors})
-      };
+      
     } catch (e) {
       next(e);
     };
@@ -28,6 +29,10 @@ class UserController {
 
   async login(req, res, next) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({error: {message: errors.array()[0].msg}})
+      };
       const { login, password } = req.body;
       const userData = await UserService.login(login, password);
       res.cookie("accessToken", userData.accessToken, "refreshToken", userData.refreshToken, rule);

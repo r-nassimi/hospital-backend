@@ -1,43 +1,40 @@
-//This is not final version of service
-
+const jwt = require('jsonwebtoken');
 const Receptions = require('../models/reception-model');
+const config = require('../../config');
 
 class ReceptionService {
-  async getList(user) {
-    const receptionList = await Receptions.find({ user: user_id });
+  async getList(token) {
+    const findUser = jwt.verify(token, config.jwtAccess);
+    const receptionList = Receptions.find({user_id: findUser.id});
     return receptionList;
   }
 
-  async createList(body) {
-    const { name, doctor, date, complaint, user } = body;
-    const list = await Receptions.create({
-      user,
-      name,
-      doctor,
-      date,
-      complaint,
+  async createList(name, doctor, date, complaint, token) {
+    const findUser = jwt.verify(token, config.jwtAccess);
+    const newList = await Receptions.create({
+      name: name,
+      doctor: doctor,
+      date: date,
+      complaint: complaint,
+      user_id: findUser.id
     });
-    return list;
+    const result = Receptions.find({user_id: findUser.id})
+    return result;
   }
 
-  async updateList(body) {
-    const {name, doctor, date, complaint, user } = body;
-    const updateFunction = Receptions.findOneAndUpdate({
-      $set: {
-        user,
-        name,
-        doctor,
-        date,
-        complaint
-      },
-    });
-    return updateFunction;
+  async updateList(id, body, token) {
+    const findUser = jwt.verify(token, config.jwtAccess);
+    const editList = await Receptions.updateOne({_id: id}, body);
+    const result = Receptions.find({user_id: findUser.id});
+    return result;
   }
 
-  async deleteList(id, user) {
-    await Receptions.deleteOne({ _id: id });
-    return this.getList(user);
+  async deleteList(id, token) {
+    const findUser = jwt.verify(token, config.jwtAccess);
+    const deleteFunction = await Receptions.deleteOne({_id: id})
+    const result = Receptions.find({user_id: findUser.id});
+    return result;
   }
 }
 
-module.exports = new ReceptionService();
+module.exports = new ReceptionService(); 

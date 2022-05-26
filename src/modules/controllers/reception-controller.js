@@ -1,34 +1,52 @@
-//createList is working
-
-const ReceptionService = require('../../service/reception-service');
+const {validationResult} = require('express-validator');
+const ReceptionService = require("../../service/reception-service");
 
 class ReceptionController {
   async getList(req, res, next) {
     try {
-      const { id } = req.user;
-      const list = await ReceptionService.getList(id);
+      const {accessToken} = req.cookies;
+      const list = await ReceptionService.getList(accessToken);
       return res.send(list);
     } catch (e) {
       next(e);
-    }
-  }
+    };
+  };
 
   async createList(req, res, next) {
     try {
-      const list = await ReceptionService.createList(req.body);
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({error: {message: errors.array()[0].msg}})
+      };
+      const {accessToken} = req.cookies;
+      const { name, doctor, date, complaint } = req.body;
+      const list = new Receptions({
+        name,
+        doctor,
+        date,
+        complaint,
+        accessToken
+      });
       return res.send(list);
     } catch (e) {
       next(e);
-    }
-  }
+    };
+  };
 
   async updateList(req, res, next) {
     try {
-      const updatingList = await ReceptionService.updateList(body);
-      if(updatingList) {
-        const refresh = await ReceptionService.getList(id);
-        return res.send(refresh);
-      }
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({error: {message: errors.array()[0].msg}})
+      };
+      const {accessToken} = req.cookies;
+      const id = req.query._id;
+      const updating = await ReceptionService.updateList(
+        id,
+        req.body,
+        accessToken
+      );
+      return res.send(updating);
     } catch (e) {
       next(e);
     }
@@ -36,12 +54,9 @@ class ReceptionController {
 
   async deleteList(req, res, next) {
     try {
-      const id = req.body._id;
-      if (id) {
-        await ReceptionService.deleteOne({ _id: id });  
-      }
-      await ReceptionService.find({ id });
-        res.send("Deleted");
+      const id = req.query._id;
+        await ReceptionService.deleteOne({ _id: id });
+      res.send("Deleted");
     } catch (e) {
       next(e);
     }

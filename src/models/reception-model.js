@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const ReceptionSchema = new Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'Users',
+  user_id: {
+    type: String,
+    ref: 'user',
   },
   name: {
     type: String,
