@@ -1,27 +1,27 @@
 const { check } = require("express-validator");
 
 module.exports = [
-    check('name')
+  check("name")
     .notEmpty()
-    .withMessage('Поле имени должно быть заполнено!')
-    .isLength({max: 200})
-    .withMessage('Вы превысили допустимое значение символов'),
+    .withMessage("Поле имени должно быть заполнено!")
+    .isLength({ max: 200 })
+    .withMessage("Вы превысили допустимое значение символов"),
 
-    check('doctor')
+  check("doctor")
     .notEmpty()
-    .withMessage('Поле врача должно быть заполнено!')
-    .isLength({max: 100})
-    .withMessage('Вы превысили допустимое значение символов'),
+    .withMessage("Поле врача должно быть заполнено!")
+    .isLength({ max: 100 })
+    .withMessage("Вы превысили допустимое значение символов"),
 
-    check('date')
+  check("date")
     .notEmpty()
-    .withMessage('Поле даты должно быть заполнено!')
-    .isLength({max: 100})
-    .withMessage('Вы превысили допустимое значение символов'),
+    .withMessage("Поле даты должно быть заполнено!")
+    .isLength({ max: 100 })
+    .withMessage("Вы превысили допустимое значение символов"),
 
-    check('complaint')
+  check("complaint")
     .notEmpty()
-    .withMessage('Поле жалобы должно быть заполнено!')
-    .isLength({max: 200})
-    .withMessage('Вы превысили допустимое значение символов'),
-]
+    .withMessage("Поле жалобы должно быть заполнено!")
+    .isLength({ max: 200 })
+    .withMessage("Вы превысили допустимое значение символов"),
+];

@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const ReceptionSchema = new Schema({
-  user_id: {
-    type: String,
-    ref: 'user',
-  },
   name: {
     type: String,
     required: true,
@@ -21,6 +17,9 @@ const ReceptionSchema = new Schema({
   complaint: {
     type: String,
     required: true,
+  },
+  user_id: {
+    type: String,
   },
 });
 
