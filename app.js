@@ -3,7 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 
-const router = require("./src/modules/routes/complaints-routes");
+const router = require("./src/modules/routes/router");
 const errorMiddleware = require("./src/modules/middleware/error-middleware");
 const config = require("./config");
 
@@ -26,7 +26,7 @@ const start = () => {
   } catch (e) {
     console.error(e);
     process.exit(1);
-  }
+  };
 };
 
 start();

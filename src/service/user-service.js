@@ -11,7 +11,7 @@ class UserService {
       throw ApiError.BadRequest(
         "Пользователь с таким логином уже существует!"
       );
-    }
+    };
     const hashPassword = await bcrypt.hash(password, 3);
     const user = await Users.create({
       login,
@@ -19,7 +19,7 @@ class UserService {
     });
     if (!login || !password) {
       throw ApiError.BadRequest("Одно из полей не имеет данных!");
-    }
+    };
     const userDto = new UserDto(user);
     const tokens = TokenService.generateTokens({ ...userDto });
     await TokenService.saveToken(userDto.id, tokens.accessToken);
@@ -27,7 +27,7 @@ class UserService {
       ...tokens,
       user: userDto,
     };
-  }
+  };
 
   async login(login, password) {
     const user = await Users.findOne({ login });
@@ -40,7 +40,7 @@ class UserService {
     );
     if (!passwordEqual) {
       throw new Error("Введенный пароль неверный!");
-    }
+    };
     const userDto = new UserDto(user);
     const tokens = TokenService.generateTokens({ ...userDto });
     await TokenService.saveToken(userDto.id, tokens.refreshToken);
@@ -48,12 +48,12 @@ class UserService {
       ...tokens,
       user: userDto,
     };
-  }
+  };
 
   async logout(refreshToken) {
     const token = await TokenService.removeToken(refreshToken);
     return token;
-  }
+  };
 
   async refresh(refreshToken) {
     if (!refreshToken) {
@@ -73,7 +73,7 @@ class UserService {
       ...tokens,
       user: userDto,
     };
-  }
-}
+  };
+};
 
 module.exports = new UserService();

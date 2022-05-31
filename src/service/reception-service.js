@@ -9,7 +9,7 @@ class ReceptionService {
       user_id: findUser.id,
     });
     return receptionList;
-  }
+  };
 
   async createList(name, doctor, date, complaint, token) {
     const findUser = jwt.verify(token, config.jwtAccess);
@@ -22,19 +22,20 @@ class ReceptionService {
     });
     const result = Receptions.find({ user_id: findUser.id });
     return result;
-  }
+  };
 
-  async updateList(id, body, token) {
+  async updateList(body, token) {
+    const {_id} = body;
     const findUser = jwt.verify(token, config.jwtAccess);
-    const editList = await Receptions.updateOne({ _id: id }, body);
+    const editList = await Receptions.updateOne({ _id: _id }, body);
     const result = Receptions.find({ user_id: findUser.id });
     return result;
-  }
+  };
 
   async deleteList(_id) {
     const deleting = await Receptions.deleteOne({ _id });
     return true;
-  }
-}
+  };
+};
 
 module.exports = new ReceptionService();

@@ -14,7 +14,7 @@ class TokenService {
       accessToken,
       refreshToken,
     };
-  }
+  };
 
   validateAccessToken(token) {
     try {
@@ -22,8 +22,8 @@ class TokenService {
       return userData;
     } catch (e) {
       return null;
-    }
-  }
+    };
+  };
 
   validateRefreshToken(token) {
     try {
@@ -31,28 +31,28 @@ class TokenService {
       return userData;
     } catch (e) {
       return null;
-    }
-  }
+    };
+  };
 
   async saveToken(userID, refreshToken) {
     const tokenData = await Token.findOne({ user: userID });
     if (tokenData) {
       tokenData.refreshToken = refreshToken;
       return tokenData.save();
-    }
+    };
     const token = await Token.create({ user: userID, refreshToken });
     return token;
-  }
+  };
 
   async removeToken(refreshToken) {
     const tokenData = await Token.deleteOne({ refreshToken });
     return tokenData;
-  }
+  };
 
   async findToken(refreshToken) {
     const tokenData = await Token.findOne({ refreshToken });
     return tokenData;
-  }
-}
+  };
+};
 
 module.exports = new TokenService();

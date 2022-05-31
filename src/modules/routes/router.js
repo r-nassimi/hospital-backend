@@ -11,7 +11,11 @@ router.post(
   [validatorMiddleware],
   UserController.registration
 );
-router.post("/login", [validatorMiddleware], UserController.login);
+router.post(
+  "/login", 
+  [validatorMiddleware], 
+  UserController.login
+  );
 router.get("/logout", UserController.logout);
 router.get("/refresh", UserController.refresh);
 
