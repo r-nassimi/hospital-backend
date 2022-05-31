@@ -9,8 +9,8 @@ class ReceptionController {
       return res.send(list);
     } catch (e) {
       next(e);
-    };
-  };
+    }
+  }
 
   async createList(req, res, next) {
     try {
@@ -32,8 +32,8 @@ class ReceptionController {
       return res.send(list);
     } catch (e) {
       next(e);
-    };
-  };
+    }
+  }
 
   async updateList(req, res, next) {
     try {
@@ -51,8 +51,8 @@ class ReceptionController {
       return res.send(updating);
     } catch (e) {
       next(e);
-    };
-  };
+    }
+  }
 
   async deleteList(req, res, next) {
     try {
@@ -61,8 +61,8 @@ class ReceptionController {
       res.send("Deleted!");
     } catch (e) {
       next(e);
-    };
-  };
-};
+    }
+  }
+}
 
 module.exports = new ReceptionController();

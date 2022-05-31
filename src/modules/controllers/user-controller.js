@@ -26,8 +26,8 @@ class UserController {
       return res.json(userData);
     } catch (e) {
       next(e);
-    };
-  };
+    }
+  }
 
   async login(req, res, next) {
     try {
@@ -36,7 +36,7 @@ class UserController {
         return res
           .status(400)
           .json({ error: { message: errors.array()[0].msg } });
-      };
+      }
       const { login, password } = req.body;
       const userData = await UserService.login(login, password);
       res.cookie("accessToken", userData.accessToken, rule);
@@ -44,8 +44,8 @@ class UserController {
       return res.json(userData);
     } catch (e) {
       next(e);
-    };
-  };
+    }
+  }
 
   async logout(req, res, next) {
     try {
@@ -56,8 +56,8 @@ class UserController {
       return res.json(token);
     } catch (e) {
       next(e);
-    };
-  };
+    }
+  }
 
   async refresh(req, res, next) {
     try {
@@ -69,8 +69,8 @@ class UserController {
       return res.json(userData);
     } catch (e) {
       next(e);
-    };
-  };
-};
+    }
+  }
+}
 
 module.exports = new UserController();
