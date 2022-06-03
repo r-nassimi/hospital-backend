@@ -7,12 +7,12 @@ const router = new Router();
 router.get("/getList", ReceptionController.getList);
 router.post(
   "/createList",
-  [receptionMiddleware],
+  receptionMiddleware,
   ReceptionController.createList
 );
 router.patch(
   "/updateList",
-  [receptionMiddleware],
+  receptionMiddleware,
   ReceptionController.updateList
 );
 router.delete("/deleteList", ReceptionController.deleteList);

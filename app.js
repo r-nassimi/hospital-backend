@@ -3,7 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 
-const router = require("./src/modules/routes");
+const router = require("./src/modules/routes/index");
 const errorMiddleware = require("./src/modules/middleware/error-middleware");
 const config = require("./config");
 

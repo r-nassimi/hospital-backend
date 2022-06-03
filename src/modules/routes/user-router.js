@@ -6,11 +6,11 @@ const router = new Router();
 
 router.post(
   "/registration",
-  [userMiddleware],
+  userMiddleware,
   UserController.registration
 );
 router.post("/login", 
-[userMiddleware], 
+userMiddleware, 
 UserController.login);
 router.get("/logout", UserController.logout);
 router.get("/refresh", UserController.refresh);
