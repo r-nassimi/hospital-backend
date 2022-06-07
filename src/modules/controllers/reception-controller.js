@@ -1,4 +1,3 @@
-const { validationResult } = require("express-validator");
 const ReceptionService = require("../../service/reception-service");
 
 class ReceptionController {
@@ -14,12 +13,6 @@ class ReceptionController {
 
   async createList(req, res, next) {
     try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res
-          .status(400)
-          .json({ error: { message: errors.array()[0].msg } });
-      }
       const { accessToken } = req.cookies;
       const { name, doctor, date, complaint } = req.body;
       const list = await ReceptionService.createList(
@@ -37,12 +30,6 @@ class ReceptionController {
 
   async updateList(req, res, next) {
     try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res
-          .status(400)
-          .json({ error: { message: errors.array()[0].msg } });
-      }
       const { accessToken } = req.cookies;
       const updating = await ReceptionService.updateList(
         req.body,
