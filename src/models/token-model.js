@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const TokenSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: "user",
+    ref: "User",
   },
   refreshToken: {
     type: String,
@@ -13,4 +13,4 @@ const TokenSchema = new Schema({
   },
 });
 
-module.exports = Token = mongoose.model("Tokens", TokenSchema);
+module.exports = Token = mongoose.model("Tokens", TokenSchema); 

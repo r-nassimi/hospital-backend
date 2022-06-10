@@ -3,8 +3,8 @@ const ReceptionService = require("../../service/reception-service");
 class ReceptionController {
   async getList(req, res, next) {
     try {
-      const { accessToken } = req.cookies;
-      const list = await ReceptionService.getList(accessToken);
+      const { accesstoken } = req.headers;
+      const list = await ReceptionService.getList(accesstoken);
       return res.send(list);
     } catch (e) {
       next(e);
@@ -13,14 +13,14 @@ class ReceptionController {
 
   async createList(req, res, next) {
     try {
-      const { accessToken } = req.cookies;
+      const { accesstoken } = req.headers;
       const { name, doctor, date, complaint } = req.body;
       const list = await ReceptionService.createList(
         name,
         doctor,
         date,
         complaint,
-        accessToken
+        accesstoken
       );
       return res.send(list);
     } catch (e) {
@@ -30,10 +30,10 @@ class ReceptionController {
 
   async updateList(req, res, next) {
     try {
-      const { accessToken } = req.cookies;
+      const { accesstoken } = req.headers;
       const updating = await ReceptionService.updateList(
         req.body,
-        accessToken
+        accesstoken
       );
       return res.send(updating);
     } catch (e) {

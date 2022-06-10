@@ -1,7 +1,7 @@
 const Router = require("express").Router;
 const ReceptionController = require('../controllers/reception-controller');
 const receptionMiddleware = require("../middleware/reception-middleware");
-const validationError = require("../middleware/validation-error");
+const validationError = require("../errors/validation-error");
 
 const router = new Router();
 

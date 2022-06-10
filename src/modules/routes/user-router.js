@@ -1,7 +1,7 @@
 const Router = require("express").Router;
 const UserController = require("../controllers/user-controller");
 const userMiddleware = require("../middleware/user-middleware");
-const validationError = require("../middleware/validation-error");
+const validationError = require("../errors/validation-error");
 
 const router = new Router();
 

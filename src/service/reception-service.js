@@ -38,4 +38,4 @@ class ReceptionService {
   }
 }
 
-module.exports = new ReceptionService();
+module.exports = new ReceptionService(); 

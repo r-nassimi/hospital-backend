@@ -13,9 +13,7 @@ class UserController {
         login,
         password
       );
-      res.cookie("accessToken", userData.accessToken, rule);
-      res.cookie("refreshToken", userData.refreshToken, rule);
-      return res.json(userData);
+      return res.send(userData);
     } catch (e) {
       next(e);
     }
@@ -25,9 +23,7 @@ class UserController {
     try {
       const { login, password } = req.body;
       const userData = await UserService.login(login, password);
-      res.cookie("accessToken", userData.accessToken, rule);
-      res.cookie("refreshToken", userData.refreshToken, rule);
-      return res.json(userData);
+      return res.send(userData);
     } catch (e) {
       next(e);
     }
@@ -35,11 +31,9 @@ class UserController {
 
   async logout(req, res, next) {
     try {
-      const { accessToken } = req.cookies;
-      const token = await UserService.logout(accessToken);
-      res.clearCookie("accessToken");
-      res.clearCookie("refreshToken");
-      return res.json(token);
+      const { accesstoken } = req.headers;
+      const token = await UserService.logout(accesstoken);
+      return res.send(token);
     } catch (e) {
       next(e);
     }
@@ -47,12 +41,9 @@ class UserController {
 
   async refresh(req, res, next) {
     try {
-      const { refreshToken } = req.cookies;
-      const userData = await UserService.refresh(refreshToken);
-      res.clearCookie("accessToken");
-      res.cookie("accessToken", userData.accessToken, rule);
-      res.cookie("refreshToken", userData.refreshToken, rule);
-      return res.json(userData);
+      const { refreshtoken } = req.headers;
+      const userData = await UserService.refresh(refreshtoken);
+      return res.send(userData);
     } catch (e) {
       next(e);
     }
