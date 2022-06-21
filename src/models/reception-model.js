@@ -20,7 +20,7 @@ const ReceptionSchema = new Schema({
   },
   user_id: {
     type: String,
-    required: true
+    required: true,
   },
 });
 

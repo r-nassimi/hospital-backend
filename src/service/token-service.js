@@ -5,7 +5,7 @@ const config = require("../../config");
 class TokenService {
   generateTokens(payload) {
     const accessToken = jwt.sign(payload, config.jwtAccess, {
-      expiresIn: "60m",
+      expiresIn: "15m",
     });
     const refreshToken = jwt.sign(payload, config.jwtRefresh, {
       expiresIn: "30d",
@@ -50,7 +50,7 @@ class TokenService {
   }
 
   async findToken(refreshToken) {
-    const tokenData = await Token.find({refreshToken})
+    const tokenData = await Token.find({ refreshToken });
     return tokenData;
   }
 }

@@ -1,23 +1,30 @@
 const Router = require("express").Router;
 const UserController = require("../controllers/user-controller");
 const userMiddleware = require("../middleware/user-middleware");
-const validationError = require("../errors/validation-error");
+const dataMiddleware = require("../middleware/data-middleware");
+const authMiddleware = require("../middleware/authorization-middleware");
 
 const router = new Router();
 
 router.post(
   "/registration",
   userMiddleware,
-  validationError,
+  dataMiddleware,
   UserController.registration
 );
 router.post(
   "/login",
   userMiddleware,
-  validationError,
+  dataMiddleware,
   UserController.login
 );
-router.get("/logout", UserController.logout);
-router.get("/refresh", UserController.refresh);
+router.get(
+  "/logout", 
+  UserController.logout
+);
+router.get(
+  "/refresh",
+  UserController.refresh
+);
 
 module.exports = router;

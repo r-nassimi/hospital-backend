@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 
 const router = require("./src/modules/routes/index");
-const errorMiddleware = require("./src/modules/middleware/error-middleware");
+const syntaxMiddleware = require("./src/modules/middleware/syntax-error");
 const config = require("./config");
 
 const app = express();
@@ -12,7 +12,7 @@ app.use(cors(config.corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/", router);
-app.use(errorMiddleware);
+app.use(syntaxMiddleware);
 
 const start = () => {
   try {

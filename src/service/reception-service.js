@@ -1,24 +1,20 @@
-const jwt = require("jsonwebtoken");
 const Receptions = require("../models/reception-model");
-const config = require("../../config");
 
 class ReceptionService {
-  async getList(token) {
-    const findUser = jwt.verify(token, config.jwtAccess);
+  async getList(id) {
     const receptionList = Receptions.find({
-      user_id: findUser.id,
+      user_id: id,
     });
     return receptionList;
   }
 
-  async createList(name, doctor, date, complaint, token) {
-    const findUser = jwt.verify(token, config.jwtAccess);
+  async createList(name, doctor, date, complaint, id) {
     const newList = await Receptions.create({
       name: name,
       doctor: doctor,
       date: date,
       complaint: complaint,
-      user_id: findUser.id,
+      user_id: id,
     });
     return newList;
   }
@@ -38,4 +34,4 @@ class ReceptionService {
   }
 }
 
-module.exports = new ReceptionService(); 
+module.exports = new ReceptionService();

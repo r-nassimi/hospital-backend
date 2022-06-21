@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const Users = require("../models/user-model");
-const TokenService = require("../service/token-service");
+const TokenService = require("./token-service");
 const UserDto = require("../modules/dto/user-dto");
 const ApiError = require("../modules/errors/api-error");
 
@@ -22,7 +22,7 @@ class UserService {
     }
     const userDto = new UserDto(user);
     const tokens = TokenService.generateTokens({ ...userDto });
-    await TokenService.saveToken(userDto.id, tokens.accessToken);
+    await TokenService.saveTokenz(userDto.id, tokens.accessToken);
     return {
       ...tokens,
       user: userDto,
@@ -57,13 +57,13 @@ class UserService {
 
   async refresh(refreshToken) {
     if (!refreshToken) {
-      throw new Error("Вы не авторизованы!");
+      throw new ApiError.UnauthorizedError("Вы не авторизованы!");
     }
     const userData = TokenService.validateRefreshToken(refreshToken);
     const tokenFromDB = await TokenService.findToken(refreshToken);
 
     if (!userData || !tokenFromDB) {
-      throw new Error("Вы не авторизованы!");
+      throw new ApiError.UnauthorizedError("Вы не авторизованы!");
     }
     const user = await Users.findById(userData.id);
     const userDto = new UserDto(user);
