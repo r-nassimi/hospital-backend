@@ -1,10 +1,5 @@
 const UserService = require("../../service/user-service");
 
-const rule = {
-  maxAge: 30 * 24 * 60 * 1000, //30 days
-  httpOnly: true,
-};
-
 class UserController {
   async registration(req, res, next) {
     try {
