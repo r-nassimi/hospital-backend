@@ -41,7 +41,7 @@ class ReceptionController {
 
   async deleteList(req, res, next) {
     try {
-      const listID = req.body._id;
+      const listID = req.query._id;
       const deleting = await ReceptionService.deleteList(listID);
       res.send("Deleted!");
     } catch (e) {
